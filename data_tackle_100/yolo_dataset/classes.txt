@@ -1,0 +1,10 @@
+airplane
+apple
+car
+cat
+cup
+dog
+human
+motorcycle
+umbrella
+watermelon
