@@ -1,2 +1,9 @@
 data_tackle_100/yolov8x.pt
 yolo_detection_app/dist
+# 忽略所有模型权重文件（你最需要的）
+*.pt
+*.pth
+*.weights
+
+# 忽略缓存和日志
+__pycache__/
