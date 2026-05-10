@@ -18,14 +18,30 @@ class YoloDetector:
         self.model = YOLO(str(MODEL_PATH))
         self.class_names = self.model.names
 
-    def detect_image(self, img_path: str | Path):
+    def detect_image(self, img_path: str | Path, conf: float = None):
         """
         检测单张图片
         :param img_path: 图片路径
+        :param conf: 可选，覆盖默认置信度阈值
         :return: ultralytics检测结果对象
         """
         if self.model is None:
             raise Exception("模型未加载成功！")
 
-        results = self.model(str(img_path), conf=DETECT_CONF_THRESHOLD)
+        threshold = conf if conf is not None else DETECT_CONF_THRESHOLD
+        results = self.model(str(img_path), conf=threshold)
+        return results[0]
+
+    def detect_frame(self, frame, conf: float = None):
+        """
+        检测视频帧（摄像头实时检测）
+        :param frame: numpy array (BGR)
+        :param conf: 可选，覆盖默认置信度阈值
+        :return: ultralytics检测结果对象
+        """
+        if self.model is None:
+            raise Exception("模型未加载成功！")
+
+        threshold = conf if conf is not None else DETECT_CONF_THRESHOLD
+        results = self.model(frame, conf=threshold, verbose=False)
         return results[0]

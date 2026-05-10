@@ -23,12 +23,19 @@ class LogHandler:
                 correct += 1
             elif record["feedback"] == "incorrect":
                 incorrect += 1
-
-        accuracy = (correct / total) * 100
-        error_rate = (incorrect / total) * 100
+        
+        # 已检测的数量（有反馈的）
+        detected = correct + incorrect
+        # 检测率 = 已检测数量 / 总数
+        detection_rate = (detected / total) * 100 if total > 0 else 0
+        # 正确率和错误率基于已检测数量计算
+        accuracy = (correct / detected) * 100 if detected > 0 else 0
+        error_rate = (incorrect / detected) * 100 if detected > 0 else 0
 
         return {
             "total": total,
+            "detected": detected,
+            "detection_rate": detection_rate,
             "correct": correct,
             "incorrect": incorrect,
             "accuracy": accuracy,
@@ -50,6 +57,8 @@ class LogHandler:
         log_content = (
             f"\n==================== 检测记录 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ====================\n"
             f"导入图片总数：{stats['total']} 张\n"
+            f"已检测数量：{stats['detected']} 张\n"
+            f"检测率：{stats['detection_rate']:.2f}%\n"
             f"检测正确：{stats['correct']} 张\n"
             f"检测错误：{stats['incorrect']} 张\n"
             f"检测正确率：{stats['accuracy']:.2f}%\n"
@@ -67,6 +76,8 @@ class LogHandler:
         print("\n" + "=" * 50)
         print("检测任务完成，统计结果：")
         print(f"导入图片总数：{stats['total']} 张")
+        print(f"已检测数量：{stats['detected']} 张")
+        print(f"检测率：{stats['detection_rate']:.2f}%")
         print(f"检测正确：{stats['correct']} 张")
         print(f"检测错误：{stats['incorrect']} 张")
         print(f"检测正确率：{stats['accuracy']:.2f}%")
