@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import ui.main_window; print\\('import ok'\\)\")",
+      "Bash(python -m py_compile ui/main_window.py)"
+    ]
+  }
+}
